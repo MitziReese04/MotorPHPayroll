@@ -26,11 +26,11 @@ import java.time.temporal.ChronoUnit;
 
 public class MotorPHPayroll {
 
-    // WEEK 8: Global Scanner for user input
-    static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
-        // --- LOGIN PROCESS (Week 8: Selection) ---
+        // Create the local scanner here
+        Scanner scanner = new Scanner(System.in);
+
+        // --- LOGIN PROCESS ---
         System.out.println("=== MotorPH Payroll System Login ===");
         System.out.print("Enter Username: ");
         String user = scanner.nextLine();
@@ -39,20 +39,22 @@ public class MotorPHPayroll {
 
         if (pass.equals("12345") && (user.equals("employee") || user.equals("payroll_staff"))) {
             if (user.equals("employee")) {
-                handleEmployeeFlow();
+                handleEmployeeFlow(scanner);
             } else {
-                handlePayrollStaffFlow();
+                handlePayrollStaffFlow(scanner);
             }
         } else {
             System.out.println("Incorrect username and/or password.");
             System.exit(0); 
         }
+        
+        scanner.close(); // Proper practice to close local scanner at end of program
     }
 
-    // --- FLOW CONTROL (Week 9: Organizing Code) ---
+    // --- FLOW CONTROL ---
 
-    public static void handleEmployeeFlow() {
-        while (true) { // Week 8: Iteration (Loops)
+    public static void handleEmployeeFlow(Scanner scanner) {
+        while (true) {
             System.out.println("\nDisplay options:");
             System.out.println("1. Enter your employee number");
             System.out.println("2. Exit the program");
@@ -78,7 +80,7 @@ public class MotorPHPayroll {
         }
     }
 
-    public static void handlePayrollStaffFlow() {
+    public static void handlePayrollStaffFlow(Scanner scanner) {
         while (true) {
             System.out.println("\n--- PAYROLL STAFF OPTIONS ---");
             System.out.println("1. Process Payroll\n2. Exit the program");
@@ -86,14 +88,14 @@ public class MotorPHPayroll {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) {
-                processPayrollMenu();
+                processPayrollMenu(scanner);
             } else if (choice.equals("2")) {
                 System.exit(0);
             }
         }
     }
 
-    public static void processPayrollMenu() {
+    public static void processPayrollMenu(Scanner scanner) {
         while (true) {
             System.out.println("\n--- PROCESS PAYROLL ---");
             System.out.println("1. One employee\n2. All employees\n3. Back");
@@ -105,52 +107,50 @@ public class MotorPHPayroll {
                 String id = scanner.nextLine();
                 String data = findLineById("data_employee.csv", id);
                 if (data != null) {
-                    calculatePayroll(smartSplit(data));
+                    System.out.print("Enter month (06 to 12): ");
+                    String month = scanner.nextLine();
+                    calculatePayroll(smartSplit(data), month);
                 } else {
                     System.out.println("Employee number does not exist.");
                 }
             } else if (choice.equals("2")) {
-                processAll();
+                System.out.print("Enter month (06 to 12): ");
+                String month = scanner.nextLine();
+                processAll(month);
             } else if (choice.equals("3")) {
                 break;
             }
         }
     }
 
-    private static void processAll() {
+    private static void processAll(String month) {
         try (BufferedReader br = new BufferedReader(new FileReader("data_employee.csv"))) {
             br.readLine(); 
             String line;
             while ((line = br.readLine()) != null) {
-                calculatePayroll(smartSplit(line));
+                calculatePayroll(smartSplit(line), month);
             }
         } catch (IOException e) {}
     }
 
-    // --- TASK 7, 8, AND 9: LOGICAL ORDER ---
+    // --- TASK 7, 8, AND 9 ---
 
-    public static void calculatePayroll(String[] emp) {
-        // --- DATA SETUP (Week 6) ---
+    public static void calculatePayroll(String[] emp, String month) {
         String id = emp[0];
         double monthlyBasic = Double.parseDouble(emp[13].replace(",", ""));
         double hourlyRate = Double.parseDouble(emp[18].replace(",", ""));
-        double rice = Double.parseDouble(emp[14].replace(",", ""));
-        double phone = Double.parseDouble(emp[15].replace(",", ""));
-        double clothing = Double.parseDouble(emp[16].replace(",", ""));
-        double totalAllowances = rice + phone + clothing;
+        
+        double rice = Double.parseDouble(emp[14].replace(",", "")) / 2.0;
+        double phone = Double.parseDouble(emp[15].replace(",", "")) / 2.0;
+        double clothing = Double.parseDouble(emp[16].replace(",", "")) / 2.0;
+        double totalAllowancesPerCutoff = rice + phone + clothing;
 
-        // --- TASK 7: CALCULATE HOURS WORKED (Grace Period Applied) ---
-        // Uses LocalTime to compare login with 8:10 AM grace limit.
-        double h1 = getHoursWorked(id, "06", 1, 15);
-        double h2 = getHoursWorked(id, "06", 16, 30);
+        double h1 = getHoursWorked(id, month, 1, 15);
+        double h2 = getHoursWorked(id, month, 16, 31);
 
-        // --- TASK 8: COMPUTE SEMI-MONTHLY SALARY (Arithmetic) ---
-        // Multiplication of hours by the hourly rate.
-        double gross1 = h1 * hourlyRate;
-        double gross2 = h2 * hourlyRate;
+        double gross1 = (h1 * hourlyRate) + totalAllowancesPerCutoff;
+        double gross2 = (h2 * hourlyRate) + totalAllowancesPerCutoff;
 
-        // --- TASK 9: APPLY DEDUCTIONS (Procedural Methods) ---
-        // Contributions are calculated first, then Withholding Tax.
         double sss = computeSSS(monthlyBasic);
         double ph = computePhilHealth(monthlyBasic);
         double pi = computePagIBIG(monthlyBasic);
@@ -159,46 +159,63 @@ public class MotorPHPayroll {
         double tax = calculateWithholdingTax(taxableIncome);
         double totalDeduc = sss + ph + pi + tax;
 
-        // --- 17-LINE OUTPUT REQUIREMENT ---
+        String mName = getMonthName(month);
+
         System.out.println("\n---------------------------------------------");
-        System.out.println("1. Employee #: " + id);
-        System.out.println("2. Employee Name: " + emp[2] + " " + emp[1]);
-        System.out.println("3. Birthday: " + emp[3]);
-        System.out.println("4. Cutoff Date: June 1 to June 15");
-        System.out.printf("5. Total Hours Worked: %.2f\n", h1);
-        System.out.printf("6. Gross Salary: %.2f\n", gross1);
-        System.out.printf("7. Net Salary: %.2f\n", gross1);
-        System.out.println("8. Cutoff Date: June 16 to June 30 (Deductions Applied)");
-        System.out.printf("9. Total Hours Worked: %.2f\n", h2);
-        System.out.printf("10. Gross Salary: %.2f\n", gross2);
-        System.out.println("11. Each Deduction:");
-        System.out.printf("   12. SSS: %.2f\n", sss);
-        System.out.printf("   13. PhilHealth: %.2f\n", ph);
-        System.out.printf("   14. Pag-IBIG: %.2f\n", pi);
-        System.out.printf("   15. Tax: %.2f (%s)\n", tax, (taxableIncome <= 20832 ? "Not taxable" : "Taxable"));
-        System.out.printf("16. Total Deductions: %.2f\n", totalDeduc);
-        System.out.printf("17. Net Salary: %.2f\n", (gross2 + totalAllowances - totalDeduc));
+        System.out.println(" Employee #: " + id);
+        System.out.println(" Employee Name: " + emp[2] + " " + emp[1]);
+        System.out.println(" Birthday: " + emp[3]);
+        System.out.println(" Cutoff Date: " + mName + " 1 to " + mName + " 15");
+        System.out.println(" Total Hours Worked: " + h1);
+        System.out.println(" Gross Salary: " + gross1);
+        System.out.println(" Net Salary: " + gross1);
+        System.out.println(" Cutoff Date: " + mName + " 16 to " + mName + " 31 (Deductions Applied)");
+        System.out.println(" Total Hours Worked: " + h2);
+        System.out.println(" Gross Salary: " + gross2);
+        System.out.println(" Each Deduction:");
+        System.out.println("    SSS: " + sss);
+        System.out.println("    PhilHealth: " + ph);
+        System.out.println("    Pag-IBIG: " + pi);
+        System.out.println("    Tax: " + tax + " (" + (taxableIncome <= 20832 ? "Not taxable" : "Taxable") + ")");
+        System.out.println(" Total Deductions: " + totalDeduc);
+        System.out.println(" Net Salary: " + (gross2 - totalDeduc));
         System.out.println("---------------------------------------------");
     }
 
-    // --- TASK 7 HELPER: TIME MATH ---
-    // Why private? To prevent other classes from changing our internal clock logic (Encapsulation).
+    private static String getMonthName(String monthStr) {
+        int month = Integer.parseInt(monthStr);
+        return switch (month) {
+            case 6 -> "June";
+            case 7 -> "July";
+            case 8 -> "August";
+            case 9 -> "September";
+            case 10 -> "October";
+            case 11 -> "November";
+            case 12 -> "December";
+            default -> "Month " + month;
+        };
+    }
+
     private static double calculateShift(String logIn, String logOut) {
         try {
-            
             DateTimeFormatter format = DateTimeFormatter.ofPattern("H:mm");
             LocalTime timeIn = LocalTime.parse(logIn, format);
             LocalTime timeOut = LocalTime.parse(logOut, format);
             
-            // Grace Period: 8:11 AM is the first minute of being late
             LocalTime officialStart = LocalTime.of(8, 0);
             LocalTime graceLimit = LocalTime.of(8, 10);
+            LocalTime officialEnd = LocalTime.of(17, 0); 
             
             LocalTime start = timeIn.isAfter(graceLimit) ? timeIn : officialStart;
+            LocalTime end = timeOut.isAfter(officialEnd) ? officialEnd : timeOut;
             
-            long minutes = ChronoUnit.MINUTES.between(start, timeOut);
-            return Math.max(0, (minutes - 60) / 60.0); // Less 1hr lunch
-        } catch (Exception e) { return 0; }
+            if (start.isAfter(end)) return 0; 
+            
+            long minutes = ChronoUnit.MINUTES.between(start, end);
+            return Math.max(0, (minutes - 60) / 60.0); 
+        } catch (Exception e) { 
+            return 0; 
+        }
     }
 
     public static double getHoursWorked(String id, String month, int start, int end) {
@@ -208,20 +225,19 @@ public class MotorPHPayroll {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(","); 
-                if (row[0].equals(id)) {
+                if (row[0].trim().equals(id.trim())) {
                     String[] date = row[3].split("/");
-                    int d = Integer.parseInt(date[1]);
-                    if (date[0].equals(month) && d >= start && d <= end) {
-                        total += calculateShift(row[4], row[5]);
+                    if (date[0].equals(month)) {
+                        int d = Integer.parseInt(date[1]);
+                        if (d >= start && d <= end) {
+                            total += calculateShift(row[4], row[5]);
+                        }
                     }
                 }
             }
         } catch (IOException e) {}
         return total;
     }
-
-    // --- TASK 9 HELPERS: DEDUCTIONS (Selection Constructs) ---
-    // Why private? These calculations are specific to this class's payroll rules.
 
     public static double computeSSS(double gross) {
         if (gross <= 3250) return 135.0;
@@ -238,7 +254,6 @@ public class MotorPHPayroll {
     }
 
     public static double calculateWithholdingTax(double taxableIncome) {
-        
         if (taxableIncome <= 20832) return 0;
         else if (taxableIncome < 33333) return (taxableIncome - 20833) * 0.20;
         else if (taxableIncome < 66667) return 2500 + (taxableIncome - 33333) * 0.25;
@@ -246,8 +261,6 @@ public class MotorPHPayroll {
         else if (taxableIncome < 666667) return 40833.33 + (taxableIncome - 166667) * 0.32;
         else return 200833.33 + (taxableIncome - 666667) * 0.35;
     }
-
-    // --- PRIVATE HELPER METHODS (CSV Splitting) ---
 
     private static String[] smartSplit(String line) {
         String[] cols = new String[30];
@@ -269,7 +282,7 @@ public class MotorPHPayroll {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.startsWith(id + ",")) return line;
+                if (line.trim().startsWith(id.trim() + ",")) return line;
             }
         } catch (IOException e) {}
         return null;
