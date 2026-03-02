@@ -11,10 +11,6 @@ package motorphpayroll;
  * Week 9: Java Methods | Week 10: File Handling
  */
 
-/*
- * MotorPH Payroll System - Final Version
- * Syllabus Concepts: Selection Constructs, Iterative Loops, Methods, and File IO.
- */
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,7 +18,6 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class MotorPHPayroll {
 
@@ -52,7 +47,6 @@ public class MotorPHPayroll {
     }
 
     // --- FLOW CONTROL ---
-
     public static void handleEmployeeFlow(Scanner scanner) {
         while (true) {
             System.out.println("\nDisplay options:");
@@ -134,7 +128,6 @@ public class MotorPHPayroll {
     }
 
     // --- TASK 7, 8, AND 9 ---
-
     public static void calculatePayroll(String[] emp, String month) {
         String id = emp[0];
         double monthlyBasic = Double.parseDouble(emp[13].replace(",", ""));
@@ -202,19 +195,29 @@ public class MotorPHPayroll {
             LocalTime timeIn = LocalTime.parse(logIn, format);
             LocalTime timeOut = LocalTime.parse(logOut, format);
             
-            LocalTime officialStart = LocalTime.of(8, 0);
+            // Rules
+            LocalTime startLimit = LocalTime.of(8, 0);
             LocalTime graceLimit = LocalTime.of(8, 10);
-            LocalTime officialEnd = LocalTime.of(17, 0); 
+            LocalTime endLimit = LocalTime.of(17, 0);
             
-            LocalTime start = timeIn.isAfter(graceLimit) ? timeIn : officialStart;
-            LocalTime end = timeOut.isAfter(officialEnd) ? officialEnd : timeOut;
+            // Apply Grace Period Rule: If before 8:11, treat as 8:00
+            LocalTime actualStart = timeIn.isAfter(graceLimit) ? timeIn : startLimit;
+            // Apply 5:00 PM Window Rule
+            LocalTime actualEnd = timeOut.isAfter(endLimit) ? endLimit : timeOut;
             
-            if (start.isAfter(end)) return 0; 
+            if (actualStart.isAfter(actualEnd)) return 0;
             
-            long minutes = ChronoUnit.MINUTES.between(start, end);
-            return Math.max(0, (minutes - 60) / 60.0); 
-        } catch (Exception e) { 
-            return 0; 
+            // Convert to minutes (Week 7: Arithmetic)
+            int startMins = actualStart.getHour() * 60 + actualStart.getMinute();
+            int endMins = actualEnd.getHour() * 60 + actualEnd.getMinute();
+            
+            // Subtract 1-hour break (60 mins)
+            int workedMins = (endMins - startMins) - 60;
+            
+            // Return decimal hours (e.g., 7.5)
+            return Math.max(0, workedMins / 60.0);
+        } catch (Exception e) {
+            return 0;
         }
     }
 
@@ -239,6 +242,7 @@ public class MotorPHPayroll {
         return total;
     }
 
+    // DEDUCTIONS LOGIC 
     public static double computeSSS(double gross) {
         if (gross <= 3250) return 135.0;
         if (gross >= 24750) return 1125.0;
