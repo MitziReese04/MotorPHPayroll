@@ -298,7 +298,7 @@ public class MotorPHPayroll {
     }
 
     /**
-     * Replaces smartSplit with Regex.
+     * Regex.
      * Splits by commas but ignores commas inside double quotes.
      */
     private static String[] regexSplit(String line) {
