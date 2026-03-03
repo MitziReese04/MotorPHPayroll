@@ -22,10 +22,8 @@ import java.time.format.DateTimeFormatter;
 public class MotorPHPayroll {
 
     public static void main(String[] args) {
-        // Create the local scanner here
         Scanner scanner = new Scanner(System.in);
 
-        // --- LOGIN PROCESS ---
         System.out.println("=== MotorPH Payroll System Login ===");
         System.out.print("Enter Username: ");
         String user = scanner.nextLine();
@@ -43,10 +41,9 @@ public class MotorPHPayroll {
             System.exit(0); 
         }
         
-        scanner.close(); // Proper practice to close local scanner at end of program
+        scanner.close();
     }
 
-    // --- FLOW CONTROL ---
     public static void handleEmployeeFlow(Scanner scanner) {
         while (true) {
             System.out.println("\nDisplay options:");
@@ -60,7 +57,7 @@ public class MotorPHPayroll {
                 String id = scanner.nextLine();
                 String data = findLineById("data_employee.csv", id);
                 if (data != null) {
-                    String[] emp = smartSplit(data);
+                    String[] emp = regexSplit(data);
                     System.out.println("\n[ Employee Details ]");
                     System.out.println("a. Employee Number: " + emp[0]);
                     System.out.println("b. Employee Name: " + emp[2] + " " + emp[1]);
@@ -103,7 +100,7 @@ public class MotorPHPayroll {
                 if (data != null) {
                     System.out.print("Enter month (06 to 12): ");
                     String month = scanner.nextLine();
-                    calculatePayroll(smartSplit(data), month);
+                    calculatePayroll(regexSplit(data), month);
                 } else {
                     System.out.println("Employee number does not exist.");
                 }
@@ -122,12 +119,11 @@ public class MotorPHPayroll {
             br.readLine(); 
             String line;
             while ((line = br.readLine()) != null) {
-                calculatePayroll(smartSplit(line), month);
+                calculatePayroll(regexSplit(line), month);
             }
         } catch (IOException e) {}
     }
 
-    // --- TASK 7, 8, AND 9 ---
     public static void calculatePayroll(String[] emp, String month) {
         String id = emp[0];
         double monthlyBasic = Double.parseDouble(emp[13].replace(",", ""));
@@ -162,7 +158,7 @@ public class MotorPHPayroll {
         System.out.println(" Total Hours Worked: " + h1);
         System.out.println(" Gross Salary: " + gross1);
         System.out.println(" Net Salary: " + gross1);
-        System.out.println(" Cutoff Date: " + mName + " 16 to " + mName + " 31 (Deductions Applied)");
+        System.out.println(" \nCutoff Date: " + mName + " 16 to " + mName + " 31 (Deductions Applied)");
         System.out.println(" Total Hours Worked: " + h2);
         System.out.println(" Gross Salary: " + gross2);
         System.out.println(" Each Deduction:");
@@ -195,26 +191,19 @@ public class MotorPHPayroll {
             LocalTime timeIn = LocalTime.parse(logIn, format);
             LocalTime timeOut = LocalTime.parse(logOut, format);
             
-            // Rules
             LocalTime startLimit = LocalTime.of(8, 0);
             LocalTime graceLimit = LocalTime.of(8, 10);
             LocalTime endLimit = LocalTime.of(17, 0);
             
-            // Apply Grace Period Rule: If before 8:11, treat as 8:00
             LocalTime actualStart = timeIn.isAfter(graceLimit) ? timeIn : startLimit;
-            // Apply 5:00 PM Window Rule
             LocalTime actualEnd = timeOut.isAfter(endLimit) ? endLimit : timeOut;
             
             if (actualStart.isAfter(actualEnd)) return 0;
             
-            // Convert to minutes (Week 7: Arithmetic)
             int startMins = actualStart.getHour() * 60 + actualStart.getMinute();
             int endMins = actualEnd.getHour() * 60 + actualEnd.getMinute();
-            
-            // Subtract 1-hour break (60 mins)
             int workedMins = (endMins - startMins) - 60;
             
-            // Return decimal hours (e.g., 7.5)
             return Math.max(0, workedMins / 60.0);
         } catch (Exception e) {
             return 0;
@@ -227,7 +216,7 @@ public class MotorPHPayroll {
             br.readLine(); 
             String line;
             while ((line = br.readLine()) != null) {
-                String[] row = line.split(","); 
+                String[] row = regexSplit(line); 
                 if (row[0].trim().equals(id.trim())) {
                     String[] date = row[3].split("/");
                     if (date[0].equals(month)) {
@@ -244,9 +233,51 @@ public class MotorPHPayroll {
 
     // DEDUCTIONS LOGIC 
     public static double computeSSS(double gross) {
-        if (gross <= 3250) return 135.0;
-        if (gross >= 24750) return 1125.0;
-        return 157.5 + ((int)((gross - 3250) / 500) * 22.5);
+        if (gross < 3250) return 135.00;
+        if (gross < 3750) return 157.50;
+        if (gross < 4250) return 180.00;
+        if (gross < 4750) return 202.50;
+        if (gross < 5250) return 225.00;
+        if (gross < 5750) return 247.50;
+        if (gross < 6250) return 270.00;
+        if (gross < 6750) return 292.50;
+        if (gross < 7250) return 315.00;
+        if (gross < 7750) return 337.50;
+        if (gross < 8250) return 360.00;
+        if (gross < 8750) return 382.50;
+        if (gross < 9250) return 405.00;
+        if (gross < 9750) return 427.50;
+        if (gross < 10250) return 450.00;
+        if (gross < 10750) return 472.50;
+        if (gross < 11250) return 495.00;
+        if (gross < 11750) return 517.50;
+        if (gross < 12250) return 540.00;
+        if (gross < 12750) return 562.50;
+        if (gross < 13250) return 585.00;
+        if (gross < 13750) return 607.50;
+        if (gross < 14250) return 630.00;
+        if (gross < 14750) return 652.50;
+        if (gross < 15250) return 675.00;
+        if (gross < 15750) return 697.50;
+        if (gross < 16250) return 720.00;
+        if (gross < 16750) return 742.50;
+        if (gross < 17250) return 765.00;
+        if (gross < 17750) return 787.50;
+        if (gross < 18250) return 810.00;
+        if (gross < 18750) return 832.50;
+        if (gross < 19250) return 855.00;
+        if (gross < 19750) return 877.50;
+        if (gross < 20250) return 900.00;
+        if (gross < 20750) return 922.50;
+        if (gross < 21250) return 945.00;
+        if (gross < 21750) return 967.50;
+        if (gross < 22250) return 990.00;
+        if (gross < 22750) return 1012.50;
+        if (gross < 23250) return 1035.00;
+        if (gross < 23750) return 1057.50;
+        if (gross < 24250) return 1080.00;
+        if (gross < 24750) return 1102.50;
+        return 1125.00;
     }
 
     public static double computePhilHealth(double gross) {
@@ -266,20 +297,20 @@ public class MotorPHPayroll {
         else return 200833.33 + (taxableIncome - 666667) * 0.35;
     }
 
-    private static String[] smartSplit(String line) {
-        String[] cols = new String[30];
-        String word = "";
-        boolean inQuotes = false;
-        int slot = 0;
-        for (char c : line.toCharArray()) {
-            if (c == '\"') inQuotes = !inQuotes;
-            else if (c == ',' && !inQuotes) {
-                cols[slot++] = word.trim();
-                word = "";
-            } else word += c;
+    /**
+     * Replaces smartSplit with Regex.
+     * Splits by commas but ignores commas inside double quotes.
+     */
+    private static String[] regexSplit(String line) {
+        // This regex splits on commas that are followed by an even number of quotes
+        // Effectively ignoring commas inside quoted strings.
+        String[] parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        
+        // Clean up quotes from the resulting strings
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].replace("\"", "").trim();
         }
-        cols[slot] = word.trim();
-        return cols;
+        return parts;
     }
 
     private static String findLineById(String path, String id) {
