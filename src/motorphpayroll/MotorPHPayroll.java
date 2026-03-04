@@ -6,10 +6,9 @@
 package motorphpayroll;
 
 /*
- * MotorPH Payroll System - Final Consolidated Version
+ * MotorPH Payroll System
  * Syllabus Topics Covered: 
- * Week 6: Variables & Data Types | Week 7: Operators | Week 8: Control Structures 
- * Week 9: Java Methods | Week 10: File Handling
+ * Variables, Operators, Control Structures, Methods, File Handling
  */
 
 import java.io.BufferedReader;
@@ -55,7 +54,7 @@ public class MotorPHPayroll {
             if (choice.equals("1")) {
                 System.out.print("Enter Employee Number: ");
                 String id = scanner.nextLine();
-                String data = findLineById("data_employee.csv", id);
+                String data = findEmployeeData("data_employee.csv", id);
                 if (data != null) {
                     String[] emp = smartSplit(data);
                     System.out.println("\n[ Employee Details ]");
@@ -96,7 +95,7 @@ public class MotorPHPayroll {
             if (choice.equals("1")) {
                 System.out.print("Enter employee number: ");
                 String id = scanner.nextLine();
-                String data = findLineById("data_employee.csv", id);
+                String data = findEmployeeData("data_employee.csv", id);
                 if (data != null) {
                     System.out.print("Enter month (06 to 12): ");
                     String month = scanner.nextLine();
@@ -134,8 +133,8 @@ public class MotorPHPayroll {
         double clothing = Double.parseDouble(emp[16].replace(",", "")) / 2.0;
         double totalAllowancesPerCutoff = rice + phone + clothing;
 
-        double h1 = getHoursWorked(id, month, 1, 15);
-        double h2 = getHoursWorked(id, month, 16, 31);
+        double h1 = hoursWorked(id, month, 1, 15);
+        double h2 = hoursWorked(id, month, 16, 31);
 
         double gross1 = (h1 * hourlyRate) + totalAllowancesPerCutoff;
         double gross2 = (h2 * hourlyRate) + totalAllowancesPerCutoff;
@@ -148,7 +147,7 @@ public class MotorPHPayroll {
         double tax = calculateWithholdingTax(taxableIncome);
         double totalDeduc = sss + ph + pi + tax;
 
-        String mName = getMonthName(month);
+        String mName = monthName(month);
 
         System.out.println("\n---------------------------------------------");
         System.out.println(" Employee #: " + id);
@@ -171,7 +170,7 @@ public class MotorPHPayroll {
         System.out.println("---------------------------------------------");
     }
 
-    private static String getMonthName(String monthStr) {
+    private static String monthName(String monthStr) {
         int month = Integer.parseInt(monthStr);
         return switch (month) {
             case 6 -> "June";
@@ -210,7 +209,7 @@ public class MotorPHPayroll {
         }
     }
 
-    public static double getHoursWorked(String id, String month, int start, int end) {
+    public static double hoursWorked(String id, String month, int start, int end) {
         double total = 0;
         try (BufferedReader br = new BufferedReader(new FileReader("data_attendance.csv"))) {
             br.readLine(); 
@@ -231,7 +230,7 @@ public class MotorPHPayroll {
         return total;
     }
 
-    // DEDUCTIONS LOGIC 
+    // --- DEDUCTIONS LOGIC ---
     public static double computeSSS(double gross) {
         if (gross < 3250) return 135.00;
         if (gross < 3750) return 157.50;
@@ -252,7 +251,7 @@ public class MotorPHPayroll {
         if (gross < 11250) return 495.00;
         if (gross < 11750) return 517.50;
         if (gross < 12250) return 540.00;
-        if (gross < 12250) return 562.50;
+        if (gross < 12750) return 562.50; 
         if (gross < 13250) return 585.00;
         if (gross < 13750) return 607.50;
         if (gross < 14250) return 630.00;
@@ -280,7 +279,7 @@ public class MotorPHPayroll {
         return 1125.00;
     }
 
-    public static double computePhilHealth(double salary) {
+     public static double computePhilHealth(double salary) {
         double totalPremium;
         double rate = 0.03;
 
@@ -356,29 +355,28 @@ public class MotorPHPayroll {
      * Iterates character by character to handle commas inside quotes.
      */
     private static String[] smartSplit(String line) {
-        String[] results = new String[30]; // Large enough for all columns
-        StringBuilder currentColumn = new StringBuilder();
-        int colIndex = 0;
+        String[] results = new String[30]; 
+        StringBuilder tempText = new StringBuilder();
+        int columnNumber = 0;
         boolean inQuotes = false;
 
         for (int i = 0; i < line.length(); i++) {
-            char c = line.charAt(i);
+            char currentCharacter = line.charAt(i);
 
-            if (c == '\"') {
-                inQuotes = !inQuotes; // Toggle status
-            } else if (c == ',' && !inQuotes) {
-                results[colIndex++] = currentColumn.toString().trim();
-                currentColumn.setLength(0); // Clear for next column
+            if (currentCharacter == '\"') {
+                inQuotes = !inQuotes; 
+            } else if (currentCharacter == ',' && !inQuotes) {
+                results[columnNumber++] = tempText.toString().trim();
+                tempText.setLength(0); 
             } else {
-                currentColumn.append(c);
+                tempText.append(currentCharacter);
             }
         }
-        // Add the last column
-        results[colIndex] = currentColumn.toString().trim();
+        results[columnNumber] = tempText.toString().trim();
         return results;
     }
 
-    private static String findLineById(String path, String id) {
+    private static String findEmployeeData(String path, String id) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
