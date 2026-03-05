@@ -129,30 +129,40 @@ public class MotorPHPayroll {
     }
 
     public static void calculatePayroll(String[] emp, String month) {
-        String id = emp[0];
-        double monthlyBasic = Double.parseDouble(emp[13].replace(",", ""));
-        double hourlyRate = Double.parseDouble(emp[18].replace(",", ""));
-        
-        double rice = Double.parseDouble(emp[14].replace(",", "")) / 2.0;
-        double phone = Double.parseDouble(emp[15].replace(",", "")) / 2.0;
-        double clothing = Double.parseDouble(emp[16].replace(",", "")) / 2.0;
-        double totalAllowancesPerCutoff = rice + phone + clothing;
+    String id = emp[0];
+    // Keep hourly rate and allowances as they are
+    double hourlyRate = Double.parseDouble(emp[18].replace(",", ""));
+    
+    double rice = Double.parseDouble(emp[14].replace(",", "")) / 2.0;
+    double phone = Double.parseDouble(emp[15].replace(",", "")) / 2.0;
+    double clothing = Double.parseDouble(emp[16].replace(",", "")) / 2.0;
+    double totalAllowancesPerCutoff = rice + phone + clothing;
 
-        double h1 = hoursWorked(id, month, 1, 15);
-        double h2 = hoursWorked(id, month, 16, 31);
+    // 1. Calculate actual hours worked for both cutoffs
+    double h1 = hoursWorked(id, month, 1, 15);
+    double h2 = hoursWorked(id, month, 16, 31);
 
-        double gross1 = (h1 * hourlyRate) + totalAllowancesPerCutoff;
-        double gross2 = (h2 * hourlyRate) + totalAllowancesPerCutoff;
+    // 2. Calculate Gross Salary based on WORKED hours, not just basic salary
+    double gross1 = (h1 * hourlyRate) + totalAllowancesPerCutoff;
+    double gross2 = (h2 * hourlyRate) + totalAllowancesPerCutoff;
 
-        double sss = computeSSS(monthlyBasic);
-        double ph = computePhilHealth(monthlyBasic);
-        double pi = computePagIBIG(monthlyBasic);
-        
-        double taxableIncome = monthlyBasic - (sss + ph + pi);
-        double tax = calculateWithholdingTax(taxableIncome);
-        double totalDeduc = sss + ph + pi + tax;
+    // 3. IMPORTANT: Calculate total monthly gross to determine correct tax/SSS brackets
+    double totalMonthlyGross = gross1 + gross2;
 
-        String mName = monthName(month);
+    // 4. Use totalMonthlyGross instead of monthlyBasic
+    // This ensures that if they work less, they pay less tax/SSS
+    double sss = computeSSS(totalMonthlyGross);
+    double ph = computePhilHealth(totalMonthlyGross);
+    double pi = computePagIBIG(totalMonthlyGross);
+    
+    // 5. CORRECTED: Taxable Income is Gross minus the three contributions
+    double taxableIncome = totalMonthlyGross - (sss + ph + pi);
+    double tax = calculateWithholdingTax(taxableIncome);
+    
+    // 6. Total Deductions for the whole month
+    double totalDeduc = sss + ph + pi + tax;
+
+    String mName = monthName(month);
 
         System.out.println("\n---------------------------------------------");
         System.out.println(" Employee #: " + id);
