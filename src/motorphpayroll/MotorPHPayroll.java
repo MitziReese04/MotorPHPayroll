@@ -188,7 +188,7 @@ public class MotorPHPayroll {
     private static String monthName(String monthStr) {
         int month = Integer.parseInt(monthStr);
         return switch (month) {
-            case 6 -> "June";
+            case 6 -> "June"; 
             case 7 -> "July";
             case 8 -> "August";
             case 9 -> "September";
@@ -315,7 +315,7 @@ public class MotorPHPayroll {
 
     public static double computePagIBIG(double salary) {
         double employeeRate;
-        double employerRate = 0.02; // Employer is always 2% based on your rules
+        double employerRate = 0.02; // Employer is always 2% based on rules
         double totalContribution;
 
         // Determine rate based on salary
