@@ -29,6 +29,7 @@ public class MotorPHPayroll {
         System.out.println("=== MotorPH Payroll System Login ===");
         System.out.print("Enter Username: ");
         String user = scanner.nextLine();
+        
         System.out.print("Enter Password: ");
         String pass = scanner.nextLine();
 
