@@ -1,5 +1,5 @@
 CP1 - MS2: 
-# Project Name: MotorPH Payroll System
+# MotorPH Payroll System
 payroll application that handles user authentication, employee data retrieval, and automated salary calculations including Philippine statutory deductions (SSS, PhilHealth, Pag-IBIG) and Withholding Tax.
 
 1. Imports 
