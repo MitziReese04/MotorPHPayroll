@@ -162,6 +162,10 @@ public class MotorPHPayroll {
     // 6. Total Deductions for the whole month
     double totalDeduc = sss + ph + pi + tax;
 
+    // 4. Define the Net Salaries as variables
+    double netSalary1 = gross1; // No deductions for 1st cutoff
+    double netSalary2 = gross2 - totalDeduc; // All deductions applied here
+    
     String mName = monthName(month);
 
         System.out.println("\n---------------------------------------------");
@@ -171,7 +175,7 @@ public class MotorPHPayroll {
         System.out.println(" Cutoff Date: " + mName + " 1 to " + mName + " 15");
         System.out.println(" Total Hours Worked: " + h1);
         System.out.println(" Gross Salary: " + gross1);
-        System.out.println(" Net Salary: " + gross1);
+        System.out.println(" Net Salary: " + netSalary1);
         System.out.println(" \nCutoff Date: " + mName + " 16 to " + mName + " 31 (Deductions Applied)");
         System.out.println(" Total Hours Worked: " + h2);
         System.out.println(" Gross Salary: " + gross2);
@@ -181,7 +185,7 @@ public class MotorPHPayroll {
         System.out.println("    Pag-IBIG: " + pi);
         System.out.println("    Tax: " + tax);
         System.out.println(" Total Deductions: " + totalDeduc);
-        System.out.println(" Net Salary: " + (gross2 - totalDeduc));
+        System.out.println(" Net Salary: " + netSalary2);
         System.out.println("---------------------------------------------");
     }
 
