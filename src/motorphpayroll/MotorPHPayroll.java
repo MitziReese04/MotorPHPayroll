@@ -9,6 +9,7 @@ package motorphpayroll;
  * MotorPH Payroll System
  * Syllabus Topics Covered: 
  * Variables, Operators, Control Structures, Methods, File Handling
+ * Group 5 H1101 MO-IT101
  */
 
 import java.io.BufferedReader;
