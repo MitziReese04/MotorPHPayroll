@@ -88,13 +88,13 @@ public class MotorPHPayroll {
     // Specifically catch if the file is missing
     catch (java.io.FileNotFoundException e) {
         System.out.println("Error: The file at '" + path + "' was not found. Please check the resources folder.");
-    } 
+      } 
     // Catch other general reading errors
     catch (IOException e) {
         System.out.println("Error: There was a problem reading the file.");
+      }
+        return null;
     }
-    return null;
-}
     
     /**
      * CSV Parser. Baeldung CSV File into Array 6.1
@@ -170,9 +170,9 @@ public class MotorPHPayroll {
 
         } else if (choice.equals("3")) {
             break; 
+          }
         }
     }
-}
     
     private static String monthName(String monthStr) {
         int month = Integer.parseInt(monthStr);
@@ -245,7 +245,7 @@ public class MotorPHPayroll {
                 total += calculateShift(row[4], row[5]); // Index 4=In, 5=Out
             }
         }
-    }
+     }
     return total;
     }
 
@@ -271,7 +271,6 @@ public class MotorPHPayroll {
     catch (IOException e) {
         System.out.println("Error: There was a problem reading the file. (Technical details: " + e.getMessage() + ")");
     }
-
     return records;
     }
     
@@ -451,4 +450,4 @@ public class MotorPHPayroll {
         System.out.println(" Net Salary: " + netSalary2);
         System.out.println("---------------------------------------------");
     }
-  }
+}
