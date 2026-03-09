@@ -333,7 +333,7 @@ public class MotorPHPayroll {
             totalPremium = salary * rate;
         }
 
-        // Return only the employee's share (50% of the total)
+        // Return only the employee's share (50% of the total) 
         return totalPremium / 2;
     }
 
