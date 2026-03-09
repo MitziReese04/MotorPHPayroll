@@ -48,22 +48,24 @@ LocalTime for grace period
 
 13. **hoursWorked** - scans the attendance.csv file for a specific ID and month, filters through thousands of rows of attendance logs to find specific dates for a specific person
 
-14. **computeSSS** - determines the SSS contribution by matching the monthly gross income against the official Philippine SSS contribution brackets.
+14. **findAttendancedata** - dynamic container that holds multiple records for one ID. This is a collection of group of data points. 
+
+15. **computeSSS** - determines the SSS contribution by matching the monthly gross income against the official Philippine SSS contribution brackets.
 Uses multiple if (gross < X) checks to find the correct tax bracket.
 
-15. **computePhilHealth** - calculates the PhilHealth premium based on a 3% rate, then returns the 50% employee share.
+16. **computePhilHealth** - calculates the PhilHealth premium based on a 3% rate, then returns the 50% employee share.
 Arithmetic operators to calculate the salary and rate; then divide the 50/50 share
 
-16. **computePagIBIG** - calculates the Pag-IBIG contribution (1% or 2%) based on the salary amount 
+17. **computePagIBIG** - calculates the Pag-IBIG contribution (1% or 2%) based on the salary amount 
 Logic operators
 
-17. **calculateWithholdingTax** - applies the BIR graduated tax table to the taxable income (Gross minus SSS, PhilHealth, and Pag-IBIG) to calculate the monthly withholding tax.
+18. **calculateWithholdingTax** - applies the BIR graduated tax table to the taxable income (Gross minus SSS, PhilHealth, and Pag-IBIG) to calculate the monthly withholding tax.
 Used nested arithmetic and conditions
 
-18. **calculatePayroll** -  core logic method. It calculates the bi-monthly gross, applies all government deductions, and prints a detailed payslip to the console.
+19. **calculatePayroll** -  core logic method. It calculates the bi-monthly gross, applies all government deductions, and prints a detailed payslip to the console.
 .replace(",", "") and Double.parseDouble to clean and convert text into math-ready numbers.
 
-19. **System.exit(0)**- the termination command used throughout the program to safely close the application when the user chooses to exit.
+20. **System.exit(0)**- the termination command used throughout the program to safely close the application when the user chooses to exit.
 
 Syllabus Covered
 Variables & Operators: For salary arithmetic and tax tiering.
@@ -79,6 +81,12 @@ Salary and Deductions calculators from Phase 1 MotorPH (SSS, PhilHealth, PagIBIG
 Payroll cutoff (1-15) displays gross salary and net salary (no deductions)
 Payroll cutoff (16-31) displays gross salary and applies all monthly deductions to calculate the final Net Salary.
 
+Additional Revision Notes after consultation
+1. Integrated a file path for findAttendanceData to ensure stable access to the attendance CSV/source file.
+2. Single Employee View: Removed the month selection requirement. Searching for an individual now displays their entire payroll history across all months.
+Process All: Maintained the month-based filter for bulk processing to allow for standard monthly payroll runs.
+3. Allowance Removal: General allowances have been removed to focus strictly on the core earnings formula.
+4. Formula Standardization for Total Hours Worked, Gross Salary, and Net Salary. 
 
 [Project Plan](https://docs.google.com/spreadsheets/d/1rbrQGOejCtMpRpwfM78M2QLEYzDD2OVu1BiteN0ZaC8/edit?usp=sharing) 
 [Excel Test for calculatePayroll](https://docs.google.com/spreadsheets/d/1lgwjecejDZlg4Ws7lmHo8aKcW4ddLghxu1lab4PAMwg/edit?usp=sharing)  
