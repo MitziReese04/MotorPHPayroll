@@ -201,33 +201,39 @@ public class MotorPHPayroll {
     }
     
     private static double calculateShift(String logIn, String logOut) {
-        try {
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("H:mm");
-            LocalTime timeIn = LocalTime.parse(logIn, format);
-            LocalTime timeOut = LocalTime.parse(logOut, format);
-            
-            LocalTime startLimit = LocalTime.of(8, 0);
-            LocalTime graceLimit = LocalTime.of(8, 10);
-            LocalTime endLimit = LocalTime.of(17, 0);
-            
-            LocalTime actualStart = timeIn.isAfter(graceLimit) ? timeIn : startLimit;
-            LocalTime actualEnd = timeOut.isAfter(endLimit) ? endLimit : timeOut;
-            
-            if (actualStart.isAfter(actualEnd)) return 0;
-            
-            int startMins = actualStart.getHour() * 60 + actualStart.getMinute();
-            int endMins = actualEnd.getHour() * 60 + actualEnd.getMinute();
-            int workedMins = (endMins - startMins) - 60;
-            
-            return Math.max(0, workedMins / 60.0);
-        } catch (Exception e) {
+    try {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("H:mm");
+        LocalTime timeIn = LocalTime.parse(logIn, format);
+        LocalTime timeOut = LocalTime.parse(logOut, format);
+
+        LocalTime startLimit = LocalTime.of(8, 0);
+        LocalTime graceLimit = LocalTime.of(8, 10);
+        LocalTime endLimit = LocalTime.of(17, 0);
+
+        LocalTime actualStart = timeIn.isAfter(graceLimit) ? timeIn : startLimit;
+        LocalTime actualEnd = timeOut.isAfter(endLimit) ? endLimit : timeOut;
+
+        if (actualStart.isAfter(actualEnd)) {
+            System.err.println("Error: Start time occurs after end time.");
             return 0;
         }
+
+        int startMins = actualStart.getHour() * 60 + actualStart.getMinute();
+        int endMins = actualEnd.getHour() * 60 + actualEnd.getMinute();
+        int workedMins = (endMins - startMins) - 60;
+
+        return Math.max(0, workedMins / 60.0);
+
+    } catch (Exception e) {
+        // Catches errors. Updated with error message.
+        System.err.println("Error processing shift data: " + e.getMessage());
+        return 0;
+       }
     }
 
     public static double hoursWorked(String id, String month, int start, int end) {
-    double total = 0;
-    java.util.List<String> records = findAttendanceData(ATTENDANCE_FILE, id);
+        double total = 0;
+        java.util.List<String> records = findAttendanceData(ATTENDANCE_FILE, id); //GeeksforGeeks. List interface in Java. 
 
     for (String line : records) {
         String[] row = smartSplit(line);
