@@ -3,11 +3,11 @@ CP1 - MS2:
 payroll application that handles user authentication, employee data retrieval, and automated salary calculations including Philippine statutory deductions (SSS, PhilHealth, Pag-IBIG) and Withholding Tax.
 
 Members of Group 5:
-Mitzi Reese Arrogante - Lead Developer, Technical Documentation
-Chantal Louise Flor - Project Lead, Tester
-Maricel Canaveral - Technical Documentation
-Rhayn Lee Hann Suarez - Tester
-Hanna Jane Dalendeg - Tester
+*Mitzi Reese Arrogante(Lead Developer, Technical Documentation);
+*Chantal Louise Flor(Project Lead, Tester);
+*Maricel Canaveral(Technical Documentation);
+*Rhayn Lee Hann Suarez(Tester);
+*Hanna Jane Dalendeg 
 
 1. **Imports** 
 import java.io.BufferedReader(Week 10: To read files line by line efficiently);
