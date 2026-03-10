@@ -10,12 +10,12 @@ Members of Group 5:
 *Hanna Jane Dalendeg 
 
 1. **Imports** 
-import java.io.BufferedReader(Week 10: To read files line by line efficiently);
-import java.io.FileReader(Week 10: To open the connection to the .csv file);
-import java.io.IOException(Week 10: Handles potential input/output failures, such as a missing file or a restricted directory); 
-import java.util.Scanner(Week 8: To capture user input from the console);
-import java.time.LocalTime(Week 7/8: Represents a time (HH:mm) used for time-based logic (grace periods));
-import java.time.format.DateTimeFormatter(Week 7: Standardizes how time is displayed or parsed, ensuring user input matches the required 24 hour pattern);
+import java.io.BufferedReader(Week 10: To read files line by line efficiently);  
+import java.io.FileReader(Week 10: To open the connection to the .csv file);  
+import java.io.IOException(Week 10: Handles potential input/output failures, such as a missing file or a restricted directory);   
+import java.util.Scanner(Week 8: To capture user input from the console);  
+import java.time.LocalTime(Week 7/8: Represents a time (HH:mm) used for time-based logic (grace periods));  
+import java.time.format.DateTimeFormatter(Week 7: Standardizes how time is displayed or parsed, ensuring user input matches the required 24 hour pattern);  
 
 3. **Files**
 Resources: Reads from data_attendance.csv and data_employee.csv.
