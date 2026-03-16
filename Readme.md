@@ -19,8 +19,8 @@ import java.time.format.DateTimeFormatter(Week 7: Standardizes how time is displ
 
 3. **Files**
 Resources: Reads from data_attendance.csv and data_employee.csv.
-private static final String ATTENDANCE_FILE = "resources/MotorPH_Employee Data - Attendance Record";(Relative path for clock-in and clockout of MotorPH employees);
-private static final String EMPLOYEE_FILE = "resources/MotorPH_Employee Data - Employee Details";(Relative path for personal information and salary rates of MotorPH employees);
+private static final String ATTENDANCE_FILE = "resources/MotorPH_Employee Data - Attendance Record.csv";(Relative path for clock-in and clockout of MotorPH employees);
+private static final String EMPLOYEE_FILE = "resources/MotorPH_Employee Data - Employee Details.csv";(Relative path for personal information and salary rates of MotorPH employees);
 
 4. **Main** - starts with a login gate that supports two user types:
 Employee: Can view their own basic profile details.
@@ -101,13 +101,19 @@ Salary and Deductions calculators from Phase 1 MotorPH (SSS, PhilHealth, PagIBIG
 Payroll cutoff (1-15) displays gross salary and net salary (no deductions)  
 Payroll cutoff (16-31) displays gross salary and applies all monthly deductions to calculate the final Net Salary.  
 
-**Additional Revision Notes after consultation**
+**Additional Revision Notes after consultation (March 7, 2026)**
 1. Integrated a file path for findAttendanceData to ensure stable access to the attendance CSV/source file.  
 2. Single Employee View: Removed the month selection requirement. Searching for an individual now displays their entire payroll history across all months.  
 Process All: Maintained the month-based filter for bulk processing to allow for standard monthly payroll runs.  
 3. Allowance Removal: General allowances have been removed to focus strictly on the core earnings formula.  
 4. Formula Standardization for Total Hours Worked, Gross Salary, and Net Salary.  
-5. Made sure to add error messages for Try-Catch.  
+5. Made sure to add error messages for Try-Catch.
+
+**Additional Revision Notes after consultation (March 16, 2026)**
+1. Added csv code for file handling to ensure program can find and open the files.
+2. Added a try-catch month validation for processAll months so that it will block if user types 13, etc.
+3. Descriptive naming variables.
+4. While-loop for deduction logic so that there would not be +45 lines.
 
 [Project Plan](https://docs.google.com/spreadsheets/d/1rbrQGOejCtMpRpwfM78M2QLEYzDD2OVu1BiteN0ZaC8/edit?usp=sharing)   
 [Excel Test for calculatePayroll](https://docs.google.com/spreadsheets/d/1lgwjecejDZlg4Ws7lmHo8aKcW4ddLghxu1lab4PAMwg/edit?usp=sharing)  
