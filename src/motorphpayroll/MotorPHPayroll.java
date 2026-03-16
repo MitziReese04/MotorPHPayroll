@@ -59,6 +59,7 @@ public class MotorPHPayroll {
     /**
      * Manages the workflow for an Employee user.
      * Control Structures (while loops)
+     * scanner for user input
      */
     public static void handleEmployeeFlow(Scanner scanner) {
         while (true) {
@@ -232,7 +233,7 @@ public class MotorPHPayroll {
 
     /**
      * Processes payroll for every employee in the records
-     * chosen month by user
+     * month for chosen month by user
      */
     private static void processAll(String month) {
         try (BufferedReader br = new BufferedReader(new FileReader(EMPLOYEE_FILE))) {
@@ -383,6 +384,8 @@ public class MotorPHPayroll {
     /**
      * Payroll output engine.
      * Revised: Descriptive internal names (hoursFirstCutoff)
+     * emp for String array of employee details.
+     * month for the month to be calculated.
      */
     public static void calculatePayroll(String[] emp, String month) {
         if (emp == null || emp.length < 19 || emp[0].isEmpty()) return;
