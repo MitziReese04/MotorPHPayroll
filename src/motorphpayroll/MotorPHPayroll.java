@@ -30,6 +30,7 @@ public class MotorPHPayroll {
     /**
      * Main entry point. Handles login authentication and system navigation.
      * using Logical Operators (&& and ||).
+     * args for Standard command-line arguments.
      * scanner used for user input
      */
     public static void main(String[] args) {
