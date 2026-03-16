@@ -373,10 +373,10 @@ public class MotorPHPayroll {
     }
 
     /**
-     * Computes Pag-IBIG contribution with a max cap.
-     * Applies Pag-IBIG rates with a contribution cap of 100.00
+     * Computes PagIBIG contribution with a max cap.
+     * Applies PagIBIG rates with a contribution cap of 100.00
      * @param salary The total monthly gross income.
-     * @return The Pag-IBIG contribution amount.
+     * @return The PagIBIG contribution amount.
      */
     public static double computePagIBIG(double salary) {
         if (salary < 1000) return 0;
