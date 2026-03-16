@@ -10,6 +10,8 @@ package motorphpayroll;
  * Syllabus Topics Covered: 
  * Variables, Operators, Control Structures, Methods, File Handling
  * Group 5 H1101 MO-IT101
+ *
+ * adding param and return tags based on Oracle and Baeldung "How to Document Generic Type Parameters in Javadoc"
  */
 
 import java.io.BufferedReader;
@@ -30,8 +32,7 @@ public class MotorPHPayroll {
     /**
      * Main entry point. Handles login authentication and system navigation.
      * using Logical Operators (&& and ||).
-     * args for Standard command-line arguments.
-     * scanner used for user input
+     * @param args Standard command-line arguments.
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -60,7 +61,7 @@ public class MotorPHPayroll {
     /**
      * Manages the workflow for an Employee user.
      * Control Structures (while loops)
-     * scanner for user input
+     * @param scanner The Scanner object used for capturing user input.
      */
     public static void handleEmployeeFlow(Scanner scanner) {
         while (true) {
@@ -92,8 +93,9 @@ public class MotorPHPayroll {
     /**
      * Searches for a specific employee ID within the Employee Details file.
      * Includes error handling for missing files or read errors.
-     * File handling, path for employee data, id for employee id
-     * return line for data, or null if not found.
+     * @param path The relative file path to the Employee Details CSV.
+     * @param id   The Employee ID to search for.
+     * @return The raw line of data for the employee, or null if not found.
      */
     private static String findEmployeeData(String path, String id) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -116,7 +118,8 @@ public class MotorPHPayroll {
      * CSV Parser. Baeldung CSV File into Array 6.1
      * Iterates character by character to handle commas inside quotes.
      * Uses dynamic ArrayList.
-     * line for single line from csv file, return a string array where is element is a specific column
+     * @param line A single raw line of text from the CSV file.
+     * @return A String array where each element represents a specific column.
      */
     private static String[] smartSplit(String line) {
         if (line == null || line.isEmpty()) return new String[0];
@@ -142,7 +145,7 @@ public class MotorPHPayroll {
 
     /**
      * Manages the workflow for Payroll Staff.
-     * scanner for user input
+    * @param scanner The Scanner object used for capturing user input.
      */
     public static void handlePayrollStaffFlow(Scanner scanner) {
         while (true) {
@@ -164,6 +167,7 @@ public class MotorPHPayroll {
      * nested control structures
      * Individual view now shows all months (June-Dec) automatically but process all let users choose month
      * Reference: Baeldung - "Validating User Input in Java"
+     * @param scanner The Scanner object used for capturing user input.
      */
     public static void processPayrollMenu(Scanner scanner) {
         while (true) {
@@ -215,8 +219,8 @@ public class MotorPHPayroll {
     /**
      * Helper to map month number to name.
      * switch expressions
-     * monthStr is the numeric string for month
-     * return the full name of month
+     * @param monthStr The numeric month string 
+     * @return The full name of the month 
      */
     private static String monthName(String monthStr) {
         int month = Integer.parseInt(monthStr);
@@ -234,7 +238,7 @@ public class MotorPHPayroll {
 
     /**
      * Processes payroll for every employee in the records
-     * month for chosen month by user
+     * @param month The numeric month to process (06 to 12).
      */
     private static void processAll(String month) {
         try (BufferedReader br = new BufferedReader(new FileReader(EMPLOYEE_FILE))) {
@@ -251,8 +255,9 @@ public class MotorPHPayroll {
     /**
      * Calculates shift hours based on clock-in/out and MotorPH rules.
      * Java Time API. Grace period and lunch hour rules. 
-     * logIn for clock-in, logOut for clock-out
-     * standard shift is 8 hours
+     * @param logIn  The clock-in time string (H:mm).
+     * @param logOut The clock-out time string (H:mm).
+     * @return The total worked hours as a double (standard shift is 8.0).
      */
     private static double calculateShift(String logIn, String logOut) {
         try {
@@ -280,8 +285,11 @@ public class MotorPHPayroll {
     /**
      * Calculates total hours worked within a date range.
      * Scans attendance CSV for records matching the employee ID and month.
-     * id for employee id, month for chosen month, start for start of cutoff, end for end of cutoff
-     * return to the total hours worked during the cutoff hence += calculation
+     * @param id    The Employee ID.
+     * @param month The numeric month.
+     * @param start The starting day of the cutoff.
+     * @param end   The ending day of the cutoff.
+     * @return The total accumulated hours worked during the cutoff.
      */
     public static double hoursWorked(String id, String month, int start, int end) {
         double total = 0;
@@ -300,8 +308,9 @@ public class MotorPHPayroll {
     /**
      * Retrieves all attendance records for a specific employee.
      * Explains exactly what went wrong if the file cannot be accessed.
-     * path for attendance, id for employee id
-     * uses while loop and the smartSplit, once matches it adds to the list
+     * @param path The relative file path to the Attendance CSV.
+     * @param id   The Employee ID to filter by.
+     * @return A List of strings containing matching attendance records.
      */
     private static List<String> findAttendanceData(String path, String id) {
         List<String> records = new ArrayList<>();
@@ -324,8 +333,8 @@ public class MotorPHPayroll {
     
     /**
      * Simplified SSS Calculation using threshold loop for better readability.
-     * salary for total monthly gross salary
-     * return the sss contribution
+     * @param salary The total monthly gross income.
+     * @return The calculated SSS contribution amount.
      */
     public static double computeSSS(double salary) {
         // Case for salaries below the first bracket
@@ -353,8 +362,8 @@ public class MotorPHPayroll {
     /**
      * Computes PhilHealth contribution (Employee share).
      * Returns the 50% employee share of the PhilHealth premium.
-     * salary for total monthly gross
-     * return the employee share
+     * @param salary The total monthly gross income.
+     * @return The PhilHealth contribution amount.
      */
     public static double computePhilHealth(double salary) {
         if (salary <= 10000) return 150.0;
@@ -366,7 +375,8 @@ public class MotorPHPayroll {
     /**
      * Computes Pag-IBIG contribution with a max cap.
      * Applies Pag-IBIG rates with a contribution cap of 100.00
-     * salary for total monthly gross salary
+     * @param salary The total monthly gross income.
+     * @return The Pag-IBIG contribution amount.
      */
     public static double computePagIBIG(double salary) {
         if (salary < 1000) return 0;
@@ -378,8 +388,8 @@ public class MotorPHPayroll {
     /**
      * Computes Withholding Tax based on taxable income brackets.
      * Calculates tax after government deductions are subtracted from gross
-     * taxableIncome for gross salary minus SSS, PhilHealth, and Pag-IBIG.
-     * return the withholding tax
+     * @param taxableIncome Gross salary minus SSS, PhilHealth, and Pag-IBIG.
+     * @return The calculated withholding tax amount.
      */
     public static double calculateWithholdingTax(double taxableIncome) {
         if (taxableIncome <= 20832) return 0;
@@ -394,8 +404,8 @@ public class MotorPHPayroll {
     /**
      * Payroll output engine.
      * Revised: Descriptive internal names (hoursFirstCutoff)
-     * emp for String array of employee details.
-     * month for the month to be calculated.
+     * @param emp   The String array of employee details from the CSV.
+     * @param month The specific month to process.
      */
     public static void calculatePayroll(String[] emp, String month) {
         if (emp == null || emp.length < 19 || emp[0].isEmpty()) return;
