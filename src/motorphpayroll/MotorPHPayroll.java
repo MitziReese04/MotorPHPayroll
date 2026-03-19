@@ -79,7 +79,7 @@ public class MotorPHPayroll {
                     String[] emp = smartSplit(data);
                     System.out.println("\n[ Employee Details ]");
                     System.out.println("a. Employee Number: " + emp[0]);
-                    System.out.println("b. Employee Name: " + emp[2] + " " + emp[1]);
+                    System.out.println("b. Employee Name: " + fullName(emp));
                     System.out.println("c. Birthday: " + emp[3]);
                 } else {
                     System.out.println("The employee number does not exist.");
@@ -143,6 +143,18 @@ public class MotorPHPayroll {
         return results.toArray(new String[0]);
     }
 
+    /**
+     * Helper to combine first and last name.
+     * Centralizes name formatting and avoids repeating array indices. 
+     * @param emp - Array of employee strings.
+     * @return Formatted full name.
+    */
+    private static String fullName(String[] emp) {
+        if (emp.length < 3) return "Unknown";
+      
+        return emp[2] + " " + emp[1]; 
+    }
+    
     /**
      * Manages the workflow for Payroll Staff.
      * @param scanner The Scanner object used for capturing user input.
@@ -333,6 +345,23 @@ public class MotorPHPayroll {
     }
     
     /**
+    * Helper to safely extract and parse the hourly rate.
+    * Purpose: Handles string cleaning and prevents crashes on bad data.
+    * @param emp - Array of employee strings.
+    * @return The hourly rate as a double; returns 0.0 if the data is invalid or missing.
+    */
+    private static double hourlyRate(String[] emp) {
+        try {
+            // Removes commas and trims whitespace
+        return Double.parseDouble(emp[18].replace(",", "").trim());
+    } catch (Exception e) {
+        System.out.println("Data Error for ID " + emp[0] + ": Invalid Hourly Rate.");
+        
+        return 0.0; 
+      }
+    }
+ 
+    /**
      * Simplified SSS Calculation using threshold loop for better readability.
      * @param salary - total monthly gross income.
      * @return the calculated SSS contribution amount.
@@ -412,7 +441,7 @@ public class MotorPHPayroll {
         if (emp == null || emp.length < 19 || emp[0].isEmpty()) return;
 
         String id = emp[0];
-        double hourlyRate = Double.parseDouble(emp[18].replace(",", ""));
+        double hourlyRate = hourlyRate(emp);
         String mName = monthName(month);
 
         // Improve variable names per feedback and adding a loop to eliminate redundancy.
@@ -448,7 +477,7 @@ public class MotorPHPayroll {
 
         System.out.println("\n---------------------------------------------");
         System.out.println(" Employee #: " + id);
-        System.out.println(" Employee Name: " + emp[2] + " " + emp[1]);
+        System.out.println(" Employee Name: " + fullName(emp));
         System.out.println(" Birthday: " + emp[3]);
         System.out.println(" Cutoff Date: " + mName + " 1 to " + mName + " 15");
         System.out.println(" Total Hours Worked: " + hoursFirstCutoff);
