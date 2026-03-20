@@ -28,10 +28,13 @@ Payroll Staff: Can process payroll for a specific individual or the entire compa
 Using Logical Operators (&& and ||) for conditional checking that sends user to the correct department
 There are also functions: handleEmployeeFlow & handlePayrollStaffFlow that separates the user experience based on the login role.
 
-5. **handleEmployeeFlow** - controls the menu loop for regular employees, allowing them to input an ID number to view their personal profile details.
+  Username: employee or payroll_staff  
+  Password: 12345
+
+6. **handleEmployeeFlow** - controls the menu loop for regular employees, allowing them to input an ID number to view their personal profile details.
 Uses a while(true) loop to keep the employee menu active until they exit.
 
-6. **findEmployeeData** - search utility that opens a specific CSV file for a matching Employee ID. 
+7. **findEmployeeData** - search utility that opens a specific CSV file for a matching Employee ID. 
 private static String findEmployeeData(String path, String id) {
     try (BufferedReader br = new BufferedReader(new FileReader(path))) {
         String line;
@@ -39,7 +42,7 @@ private static String findEmployeeData(String path, String id) {
             String[] columns = smartSplit(line);
 Implements BufferedReader and FileReader to search through external files.
 
-7. **smartSplit** -  ensures that commas inside quotation marks (like in an address or a name) are treated as text rather than column separators.
+8. **smartSplit** -  ensures that commas inside quotation marks (like in an address or a name) are treated as text rather than column separators.
  private static String[] smartSplit(String line) {
         String[] results = new String[30]; 
         StringBuilder tempText = new StringBuilder();
@@ -48,10 +51,10 @@ Implements BufferedReader and FileReader to search through external files.
 Uses a for loop and char analysis to parse CSV data manually.
 Unlike a simple split(","), this custom method uses a logic loop to handle CSV files where data (like names or addresses) might contain commas inside quotation marks.
 
-8. **handlePayrollStaffFlow** - manages the primary navigation menu for Payroll Staff, providing options to enter the payroll processing section or exit the system.
+9. **handlePayrollStaffFlow** - manages the primary navigation menu for Payroll Staff, providing options to enter the payroll processing section or exit the system.
 Control flow switch/if
 
-9. **processPayrollMenu** - A sub-menu for staff that allows for the selection of either "One employee" or "All employees" when generating payroll reports. If one employee is chosen, all the payroll history shall show up. If All employees are chosen, user may chose a month to generate payroll reports.
+10. **processPayrollMenu** - A sub-menu for staff that allows for the selection of either "One employee" or "All employees" when generating payroll reports. If one employee is chosen, all the payroll history shall show up. If All employees are chosen, user may chose a month to generate payroll reports.
 Nested control flow. Infinite while loop that runs until user selects 3 to break, and standrdard for loop for fixed count of 6-12 for months. 
 
 11. **monthName** - utility that helps convert numeric month inputs (e.g., "06") into their corresponding names (e.g., "June").
