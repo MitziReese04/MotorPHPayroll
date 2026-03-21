@@ -3,22 +3,24 @@ CP1 - MS2:
 payroll application that handles user authentication, employee data retrieval, and automated salary calculations including Philippine statutory deductions (SSS, PhilHealth, Pag-IBIG) and Withholding Tax.
 
 Members of Group 5:  
-*Mitzi Reese Arrogante(Lead Developer, Technical Documentation);  
-*Chantal Louise Flor(Project Lead, Tester);  
-*Maricel Canaveral(Technical Documentation);  
-*Rhayn Lee Hann Suarez(Tester);  
+*Mitzi Reese Arrogante (Lead Developer, Technical Documentation);  
+*Chantal Louise Flor (Project Lead, Tester);  
+*Maricel Canaveral (Technical Documentation);  
+*Rhayn Lee Hann Suarez (Tester);  
 *Hanna Jane Dalendeg 
 
 1. **Imports** 
-import java.io.BufferedReader(Week 10: To read files line by line efficiently);  
-import java.io.FileReader(Week 10: To open the connection to the .csv file);  
-import java.io.IOException(Week 10: Handles potential input/output failures, such as a missing file or a restricted directory);   
-import java.util.Scanner(Week 8: To capture user input from the console);  
-import java.time.LocalTime(Week 7/8: Represents a time (HH:mm) used for time-based logic (grace periods));  
-import java.time.format.DateTimeFormatter(Week 7: Standardizes how time is displayed or parsed, ensuring user input matches the required 24 hour pattern);  
+import java.io.BufferedReader (Week 10: To read files line by line efficiently);  
+import java.io.FileReader (Week 10: To open the connection to the .csv file);  
+import java.io.IOException (Week 10: Handles potential input/output failures, such as a missing file or a restricted directory);   
+import java.util.Scanner (Week 8: To capture user input from the console);  
+import java.time.LocalTime (Week 7/8: Represents a time (HH:mm) used for time-based logic (grace periods));  
+import java.time.format.DateTimeFormatter (Week 7: Standardizes how time is displayed or parsed, ensuring user input matches the required 24 hour pattern);
+import java.util.ArrayList (For scalability - To use a list that will be automatically grow size if we add more records in csv files);  
+import java.util.List (To ensure any list we create follows the same standard rules for adding or removing data);  
 
 3. **Files**
-Resources: Reads from data_attendance.csv and data_employee.csv.
+Resources: Reads from the attendance.csv and the employee.csv files
 private static final String ATTENDANCE_FILE = "resources/MotorPH_Employee Data - Attendance Record.csv";(Relative path for clock-in and clockout of MotorPH employees);
 private static final String EMPLOYEE_FILE = "resources/MotorPH_Employee Data - Employee Details.csv";(Relative path for personal information and salary rates of MotorPH employees);
 
