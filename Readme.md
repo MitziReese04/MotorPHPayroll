@@ -20,15 +20,15 @@ import java.util.ArrayList (For scalability - To use a list that will be automat
 import java.util.List (To ensure any list we create follows the same standard rules for adding or removing data);  
 
 2. **Files**  
-Resources: Reads from the attendance.csv and the employee.csv files
+Resources: Reads from the attendance.csv and the employee.csv files  
 private static final String ATTENDANCE_FILE = "resources/MotorPH_Employee Data - Attendance Record.csv";(Relative path for clock-in and clockout of MotorPH employees);  
 private static final String EMPLOYEE_FILE = "resources/MotorPH_Employee Data - Employee Details.csv";(Relative path for personal information and salary rates of MotorPH employees);  
 
-3. **Main** - starts with a login gate that supports two user types:
-Employee: Can view their own basic profile details.
-Payroll Staff: Can process payroll for a specific individual or the entire company.
-Using Logical Operators (&& and ||) for conditional checking that sends user to the correct department
-There are also functions: handleEmployeeFlow & handlePayrollStaffFlow that separates the user experience based on the login role.
+3. **Main** - starts with a login gate that supports two user types:  
+Employee: Can view their own basic profile details.  
+Payroll Staff: Can process payroll for a specific individual or the entire company.  
+Using Logical Operators (&& and ||) for conditional checking that sends user to the correct department  
+There are also functions: handleEmployeeFlow & handlePayrollStaffFlow that separates the user experience based on the login role.  
 
   - Username: employee or payroll_staff  
   - Password: 12345
