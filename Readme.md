@@ -92,12 +92,13 @@ Used nested arithmetic and conditions
 
 21. **System exit** - (return or scanner.close) the termination command used throughout the program to safely close the application when the user chooses to exit.
 
-MotorPH Map  
+MotorPH Map
 - main → handleEmployeeFlow or handlePayrollStaffFlow  
 - if handleEmployeeFlow → calls findEmployeeData → calls fullName (shows Employee Number, Employee Name, Birthday)  
 - if handlePayrollStaffFlow → processPayrollMenu → processPayroll  
 - processPayroll → findWorkingPeriods (when employee worked) → findAttendanceData (get logs) and smartSplit (csv commas) → calculatePayroll  
-- calculatePayroll → hourlyRate and smartSplit → calculateShift and monthName → computeSSS and computePhilHealth and computePagIBIG and calculateWithholdingTax   
+- calculatePayroll → hourlyRate and smartSplit → calculateShift and monthName → computeSSS and computePhilHealth and computePagIBIG and calculateWithholdingTax
+- System exit (return/scanner.close)     
 
 Syllabus Covered  
 Variables & Operators: For salary arithmetic and tax tiering.  
