@@ -92,7 +92,6 @@ Used nested arithmetic and conditions
 
 21. **System exit** - (return or scanner.close) the termination command used throughout the program to safely close the application when the user chooses to exit.
 
-MotorPH Map
 - main → handleEmployeeFlow or handlePayrollStaffFlow  
 - if handleEmployeeFlow → calls findEmployeeData → calls fullName (shows Employee Number, Employee Name, Birthday)  
 - if handlePayrollStaffFlow → processPayrollMenu → processPayroll  
