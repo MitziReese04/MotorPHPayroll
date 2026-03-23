@@ -21,8 +21,8 @@ import java.util.List (To ensure any list we create follows the same standard ru
 
 2. **Files**  
 Resources: Reads from the attendance.csv and the employee.csv files
-private static final String ATTENDANCE_FILE = "resources/MotorPH_Employee Data - Attendance Record.csv";(Relative path for clock-in and clockout of MotorPH employees);
-private static final String EMPLOYEE_FILE = "resources/MotorPH_Employee Data - Employee Details.csv";(Relative path for personal information and salary rates of MotorPH employees);
+private static final String ATTENDANCE_FILE = "resources/MotorPH_Employee Data - Attendance Record.csv";(Relative path for clock-in and clockout of MotorPH employees);  
+private static final String EMPLOYEE_FILE = "resources/MotorPH_Employee Data - Employee Details.csv";(Relative path for personal information and salary rates of MotorPH employees);  
 
 3. **Main** - starts with a login gate that supports two user types:
 Employee: Can view their own basic profile details.
@@ -35,7 +35,7 @@ There are also functions: handleEmployeeFlow & handlePayrollStaffFlow that separ
 
 4. **handleEmployeeFlow** - controls the menu loop for regular employees, allowing them to input an ID number to view their personal profile details.
 Uses a while(true) loop to keep the employee menu active until they exit.
-- Employee ID  
+- Employee Number  
 - Employee Name  
 - Birthday  
 
@@ -58,8 +58,7 @@ Unlike a simple split(","), this custom method uses a logic loop to handle CSV f
 
 7. **fullName** - helper for combining first and last name, if statement.  
 
-8. **handlePayrollStaffFlow** - manages the primary navigation menu for Payroll Staff, providing options to enter the payroll processing section or exit the system.
-Control flow switch/if
+8. **handlePayrollStaffFlow** - manages the primary navigation menu for Payroll Staff, providing options to enter the payroll processing section or exit the system. Control flow switch/if.  
 
 9. **processPayrollMenu** - A sub-menu for staff that allows for the selection of either "One employee" or "All employees" when generating payroll reports. Payroll history shall show up. Nested control flow. Infinite while loop that runs until user selects 3 to break.
 
