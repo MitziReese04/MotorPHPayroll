@@ -11,7 +11,6 @@ package motorphpayroll;
  * Variables, Operators, Control Structures, Methods, File Handling
  * JavaTime API (handles clock times), ArrayList (for scalability), Wrapper Classes (turn texts into numbers)
  * Group 5 H1101 MO-IT101
- *
  * adding param and return tags based on Oracle. How to Write Doc Comments for the Javadoc Tool. Baeldung. How to Document Generic Type Parameters in Javadoc.
  */
 
