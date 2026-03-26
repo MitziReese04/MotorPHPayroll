@@ -13,6 +13,7 @@ package motorphpayroll;
  * Variables, Operators, Control Structures, Methods, File Handling
  * JavaTime API (handles clock times), ArrayList (for scalability), Wrapper Classes (turn texts into numbers)
  * Group 5 H1101 MO-IT101
+ * 
  * adding param and return tags based on Oracle. How to Write Doc Comments for the Java doc Tool. Baeldung. How to Document Generic Type Parameters in Java doc.
  */
 
@@ -70,7 +71,7 @@ public class MotorPHPayroll {
         while (true) {
             System.out.println("\nDisplay options:");
             System.out.println("1. Enter your employee number");
-            System.out.println("2. Logout");
+            System.out.println("2. Exit the program");
             System.out.print("Choice: ");
             String choice = scanner.nextLine();
 
@@ -167,7 +168,7 @@ public class MotorPHPayroll {
     public static void handlePayrollStaffFlow(Scanner scanner) {
         while (true) {
             System.out.println("\n--- PAYROLL STAFF OPTIONS ---");
-            System.out.println("1. Process Payroll\n2. Logout");
+            System.out.println("1. Process Payroll\n2. Exit the program");
             System.out.print("Choice: ");
             String choice = scanner.nextLine();
 
@@ -355,14 +356,13 @@ public class MotorPHPayroll {
         return records;
     }
 
-
     /**
-    * Helper to safely extract and parse the hourly rate.
-    * Purpose: Handles string cleaning and prevents crashes on bad data.
-    * Baeldung. Exception Handling in Java. 3.2 unchecked exception if there is a potential typo in csv
-    * @param emp - Array of employee strings.
-    * @return The hourly rate as a double; returns 0.0 if the data is invalid or missing.
-    */
+     * Helper to safely extract and parse the hourly rate.
+     * Purpose: Handles string cleaning and prevents crashes on bad data.
+     * Baeldung. Exception Handling in Java. 3.2 unchecked exception if there is a potential typo in csv
+     * @param emp - Array of employee strings.
+     * @return The hourly rate as a double; returns 0.0 if the data is invalid or missing.
+     */
     private static double hourlyRate(String[] emp) {
         try {
             return Double.parseDouble(emp[18].replace(",", "").trim());
@@ -427,15 +427,13 @@ public class MotorPHPayroll {
         return totalPremium / 2;
     }
 
-
-
     /**
      * Computes PagIBIG contribution with a max cap.
      * Applies PagIBIG rates with a contribution cap of 100.00
      * @param salary - total monthly gross income.
      * @return the PagIBIG contribution amount.
      */
-        public static double computePagIBIG(double salary) {
+    public static double computePagIBIG(double salary) {
         double employeeRate;
         double employerRate = 0.02; // Employer is always 2% based on rules
         double totalContribution;
@@ -460,7 +458,6 @@ public class MotorPHPayroll {
 
         return totalContribution;
     }
-
 
     /**
      * Computes Withholding Tax based on taxable income brackets.
@@ -493,7 +490,6 @@ public class MotorPHPayroll {
 
         return tax;
     }
-
 
     /**
      * Payroll output engine.
