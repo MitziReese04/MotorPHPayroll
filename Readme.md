@@ -9,13 +9,13 @@ Members of Group 5:
 *Rhayn Lee Hann Suarez (Tester);  
 *Hanna Jane Dalendeg 
 
-How to run the project 
+**How to run the project**   
 1. Open in Netbeans by selecting file, open project "MotorPHPayroll" folder.
 2. To make sure that you are in the right class, please right click project, then go to Properties, and then Run and click Browse next to main class, and select "motorphpayroll.MotorPHPayroll".
 3. Clean and build by right clicking the project after clicking the class, and select Clean and Build.
 4. Click the green Play button. 
 
-Features: 
+**Features:**   
 1. **Imports**   
 import java.io.BufferedReader (Week 10: To read files line by line efficiently);  
 import java.io.FileReader (Week 10: To open the connection to the .csv file);  
@@ -106,7 +106,7 @@ Used nested arithmetic and conditions
 - calculatePayroll → hourlyRate and smartSplit → calculateShift and monthName → computeSSS and computePhilHealth and computePagIBIG and calculateWithholdingTax
 - System.exit     
 
-Syllabus Covered  
+**Syllabus Covered**  
 Variables & Operators: For salary arithmetic and tax tiering.  
 Control Structures: switch expressions for months and if-else for tax brackets.  
 Methods: Modularized logic for clean, reusable code.  
@@ -114,7 +114,7 @@ File Handling: Used BufferedReader and FileReader implementation.
 Java Time API: LocalTime and DateTimeFormatter for precise attendance tracking.
 ArrayList. Wrapper Classes. 
 
-Notes  
+**Notes**  
 The CSV files are located in the resources/ folder.  
 Year: For the 2024 attendance data  
 Salary and Deductions calculators from Phase 1 MotorPH (SSS, PhilHealth, PagIBIG, Withholdingtax)  
@@ -138,7 +138,7 @@ Process All: Maintained the month-based filter for bulk processing to allow for 
 6. added comments with param and return as per Javadoc.
 7. Refactor payroll logic for scalability by removing the hard-coded months and added the year filter.
 
-Project restored on March 26, 2026 5AM due to error and crash.  
+**Note on File Structure:** Project restored on March 26, 2026 5AM due to environmental error and crash. Attempts were made to reorganize and clean the project files via Github. However, this led to several dependency and pathing issues. To maintain stability of the build, the file structure has been left in its original state. 
 
 [Project Plan](https://docs.google.com/spreadsheets/d/1rbrQGOejCtMpRpwfM78M2QLEYzDD2OVu1BiteN0ZaC8/edit?usp=sharing)   
 [Excel Test for calculatePayroll](https://docs.google.com/spreadsheets/d/1lgwjecejDZlg4Ws7lmHo8aKcW4ddLghxu1lab4PAMwg/edit?usp=sharing)  
